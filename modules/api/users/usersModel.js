@@ -62,14 +62,14 @@ const selectUser = async(user) => {
 const updateTokenFirebaseUser = async (iduser, tokenfirebase) => {
     try
     {
-       return await menusModel.findOneAndUpdate(iduser, {tokenfirebase : tokenfirebase}).exec();
+       return await usersModel.findOneAndUpdate(iduser, {tokenfirebase : tokenfirebase}).exec();
     }
     catch(err)
     {
+        console.log(err);
         return null;
     }
 }
-
 
 module.exports = {
     createUser, updateUser, selectUser, updateTokenFirebaseUser
