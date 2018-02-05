@@ -71,6 +71,28 @@ const updateTokenFirebaseUser = async (iduser, tokenfirebase) => {
     }
 }
 
+const changePassword = async(user) => {
+    try
+    {
+       let userOld = await usersModel.findOne({username : user.username, password : user.password}).exec();
+       if(userOld === null || typeof userOld === 'undefined')
+       //Sai tài khoản hoặc mật khẩu
+            return 0;
+       else
+        {
+            let newUser = await usersModel.findOneAndUpdate({username : user.username,password : user.password}, {password : user.newpassword}).exec();
+            if(newUser === null || typeof newUser === 'undefined')
+                return 0;
+            else 
+                return 1;
+        }
+    }
+    catch(err)
+    {
+        console.log(err);
+        return -1;
+    }
+}
 module.exports = {
-    createUser, updateUser, selectUser, updateTokenFirebaseUser
+    createUser, updateUser, selectUser, updateTokenFirebaseUser, changePassword
 }

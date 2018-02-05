@@ -106,11 +106,49 @@ Router.get('/logout', async (req, res) => {
     try
     {
        let id = req.query.id;
-       let update = await usersModel.updateTokenFirebaseUser(id, "");
-        if (update === null) {
-            res.send({ status : false, msg : config.KHONG_THANH_CONG});
-        } else {
-            res.send({ status : true, msg : config.THANH_CONG});
+       if(!Utils.verifyLogin(req.query.id, req.headers['token']))
+       {
+           res.send({status : false, msg : config.MA_TOKEN_KHONG_DUNG});
+       }
+       else
+       {
+            let update = await usersModel.updateTokenFirebaseUser(id, "");
+            if (update === null) {
+                res.send({ status : false, msg : config.KHONG_THANH_CONG});
+            } else {
+                res.send({ status : true, msg : config.THANH_CONG});
+            }
+        }
+    }
+    catch(err)
+    {
+        console.log(err);
+        res.send({status : false, msg : config.CO_LOI_XAY_RA});
+    }
+});
+
+Router.post('/changepassword', async (req, res) => {
+    try
+    {
+        let user = {
+            username: req.body.username,
+            password: req.body.password,
+            newpassword : req.body.newpassword
+        }
+
+        if(!Utils.verifyLogin(req.body.idlogin, req.headers['token']))
+        {
+            res.send({status : false, msg : config.MA_TOKEN_KHONG_DUNG});
+        }
+        else
+        {
+            let result = usersModel.changePassword(user);
+            if(result === 0)
+                res.send({status : false, msg : config.TEN_TK_HOAC_MK_SAI});
+            else if(result === -1)
+                res.send({status : false, msg : config.CO_LOI_XAY_RA});
+            else 
+                res.send({ status : true, msg : config.THANH_CONG});
         }
     }
     catch(err)
