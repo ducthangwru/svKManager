@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 const menusSchema = require('./menusSchema');
 let menusModel = mongoose.model('menus', menusSchema);
 
-const findAllMenus = async ({}) => {
+const findMenusByGroup = async (idgroup) => {
     try
     {
-       return await menusModel.find({}).exec();
+       return await menusModel.find({groups : idgroup}).exec();
     }
     catch(err)
     {
@@ -15,5 +15,5 @@ const findAllMenus = async ({}) => {
 
 
 module.exports = {
-    findAllMenus
+    findMenusByGroup
 }

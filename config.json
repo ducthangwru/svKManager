@@ -1,4 +1,4 @@
 {
-    "connectionString" : "mongodb://admin:admin@ds119258.mlab.com:19258/kidentertainment",
+    "connectionString" : "mongodb://admin:admin@ds125318.mlab.com:25318/kmanager",
     "port" : 6969
 }

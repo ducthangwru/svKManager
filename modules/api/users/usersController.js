@@ -5,7 +5,7 @@ const menusModel = require('../menus/menusModel');
 const config = require('../../../configString.json');
 const Utils = require('../../../utils/Utils');
 
-Router.post('/', (req, res) => {
+Router.post('/', async (req, res) => {
     try
     {
         let newUser = {
@@ -27,15 +27,12 @@ Router.post('/', (req, res) => {
         // }
         // else
         // {
-            usersModel.createUser(newUser, (err, doc) => {
-                    if (err != null) {
-                        console.log(err);
-                        res.send({ status : false, msg : config.KHONG_THANH_CONG});
-                    } else {
-                        res.send({ status : true, msg : config.THANH_CONG});
-                    }
-                }
-            )
+            let doc = usersModel.createUser(newUser);
+            if (doc === null) {
+                res.send({ status : false, msg : config.KHONG_THANH_CONG});
+            } else {
+                res.send({ status : true, msg : config.THANH_CONG});
+            }
         //}
     }
     catch(err)
@@ -44,7 +41,7 @@ Router.post('/', (req, res) => {
     }
 });
 
-Router.put('/', (req, res) => {
+Router.put('/', async (req, res) => {
     try
     {
         let newUser = {
@@ -65,13 +62,12 @@ Router.put('/', (req, res) => {
         }
         else
         {
-            usersModel.updateUser(newUser, (err, doc) => {
-                if (err != null) {
-                    res.send({ status : false, msg : config.KHONG_THANH_CONG});
-                } else {
-                    res.send({ status : true, msg : config.THANH_CONG});
-                }
-            });
+            let doc = await usersModel.updateUser(newUser);
+            if (doc === null) {
+                res.send({ status : false, msg : config.KHONG_THANH_CONG});
+            } else {
+                res.send({ status : true, msg : config.THANH_CONG});
+            }
         }
     }
     catch(err)
@@ -80,27 +76,28 @@ Router.put('/', (req, res) => {
     }
 });
 
-Router.post('/login', (req, res) => {
+Router.post('/login', async (req, res) => {
     try
     {
         let user = {
             username: req.body.username,
-            password: req.body.password
+            password: req.body.password,
+            tokenfirebase : req.body.tokenfirebase
         }
 
-        usersModel.selectUser(user, async (err, doc) => {
-            if (err != null) {
-                res.send({ status : false, msg : config.KHONG_THANH_CONG, data : null, token : ""});
-            } else {
-                var token = Utils.getToken(doc._id);
-                let menus = await menusModel.findAllMenus({});
-                res.send({ status : true, msg : config.THANH_CONG, data : doc, token : token, menus : menus});
-            }
+        let doc = await usersModel.selectUser(user);
+        if (doc === null) {
+            res.send({ status : false, msg : config.KHONG_THANH_CONG, data : null, token : ""});
+        } else {
+            let token = Utils.getToken(doc._id);
+            let menus = await menusModel.findMenusByGroup(doc.group._id);
+            let update = await usersModel.updateTokenFirebaseUser(doc._id, user.tokenfirebase);
+            res.send({ status : true, msg : config.THANH_CONG, data : doc, token : token, menus : menus});
         }
-    )
     }
     catch(err)
     {
+        console.log(err);
         res.send({status : false, msg : config.CO_LOI_XAY_RA});
     }
 });

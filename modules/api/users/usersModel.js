@@ -5,24 +5,18 @@ let usersModel = mongoose.model('users', userSchema);
 const groupsSchema = require('../groups/groupsSchema');
 let groupsModel = mongoose.model('groups', groupsSchema);
 
-const createUser = (user, callback) => {
+const createUser = async(user) => {
     try
     {
-        usersModel.create(user, (err, doc) => {
-            if (err) {
-                callback(err);
-            } else {
-                callback(null, doc);
-            }
-        });
+        return await usersModel.create(user).exec();
     }
     catch(err)
     {
-        callback(err);
+        return null;
     }
 }
 
-const updateUser = (user, callback) => {
+const updateUser = async(user) => {
     try
     {
         var id = user._id;
@@ -37,22 +31,15 @@ const updateUser = (user, callback) => {
             group : user.group
         }
     
-        usersModel.findOneAndUpdate(id, queryUpdate, (err, doc) => {
-            if (err) {
-                console.log(err);
-                callback(err);
-            } else {
-                callback(null, doc);
-            }
-        })
+        return await usersModel.findOneAndUpdate(id, queryUpdate).exec();
     }
     catch(err)
     {
-        callback(err);
+        return null;
     }
 }
 
-const selectUser = (user, callback) => {
+const selectUser = async(user) => {
     try
     {
         var queryFind = {
@@ -60,24 +47,30 @@ const selectUser = (user, callback) => {
             password : user.password,
         }
     
-        usersModel.findOne(queryFind, (err, doc) => {
-            if (err) {
-                console.log(err);
-                callback(err);
-            } else {
-                callback(null, doc);
-            }
-        }).populate({
+        return await usersModel.findOne(queryFind).populate({
             path: 'group',
             model: groupsModel 
           }).exec();
     }
     catch(err)
     {
-        callback(err);
+        console.log(err);
+        return null;
     }
 }
 
+const updateTokenFirebaseUser = async (iduser, tokenfirebase) => {
+    try
+    {
+       return await menusModel.findOneAndUpdate(iduser, {tokenfirebase : tokenfirebase}).exec();
+    }
+    catch(err)
+    {
+        return null;
+    }
+}
+
+
 module.exports = {
-    createUser, updateUser, selectUser
+    createUser, updateUser, selectUser, updateTokenFirebaseUser
 }
