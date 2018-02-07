@@ -231,7 +231,7 @@ const MD5 = (string) => {
 const verifyLogin = (iduser, token) => {
     try
     {
-        var decoded = jwt.verify(token, 'My@~Care!&');
+        var decoded = jwt.verify(token, configString.KEY);
         if(decoded.iduser == iduser)
             return true;
         else
@@ -247,7 +247,7 @@ const getToken = (iduser) => {
     //My@~Care!&
     try
     {
-        return jwt.sign({iduser : iduser}, "Kids@~Entertainment!&");
+        return jwt.sign({iduser : iduser}, configString.KEY);
     }
     catch(err)
     {
