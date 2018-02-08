@@ -1,6 +1,8 @@
 {
     "KEY" : "K@~Manager!&",
     "THANH_CONG" : "Xử lý thành công!",
+    "DA_TON_TAI" : "Đã tồn tại!",
+    "KHONG_THE_XOA" : "Không thể xóa!",
     "KHONG_THANH_CONG" : "Không thành công!",
     "MA_TOKEN_KHONG_DUNG" : "Mã token không đúng!",
     "CO_LOI_XAY_RA" : "Có lỗi xảy ra!. Vui lòng thử lại!",

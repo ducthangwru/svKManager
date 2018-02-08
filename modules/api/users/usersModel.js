@@ -8,7 +8,7 @@ let groupsModel = mongoose.model('groups', groupsSchema);
 const createUser = async(user) => {
     try
     {
-        return await usersModel.create(user).exec();
+        return await usersModel.create(user);
     }
     catch(err)
     {

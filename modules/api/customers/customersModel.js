@@ -5,7 +5,7 @@ let customersModel = mongoose.model('customers', customersSchema);
 const createCustomer = async (customer) => {
     try
     {
-        return await customersModel.create(customer).exec();
+        return await customersModel.create(customer);
     }
     catch(err)
     {
