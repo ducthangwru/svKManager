@@ -27,7 +27,7 @@ Router.post('/', async (req, res) => {
         // }
         // else
         // {
-            let doc = usersModel.createUser(newUser);
+            let doc = await usersModel.createUser(newUser);
             if (doc === null) {
                 res.send({ status : false, msg : config.KHONG_THANH_CONG});
             } else {
@@ -142,7 +142,7 @@ Router.post('/changepassword', async (req, res) => {
         }
         else
         {
-            let result = usersModel.changePassword(user);
+            let result = await usersModel.changePassword(user);
             if(result === 0)
                 res.send({status : false, msg : config.TEN_TK_HOAC_MK_SAI});
             else if(result === -1)

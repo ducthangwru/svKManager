@@ -20,7 +20,18 @@ const findByIdGroup = (idgroup, callback) => {
     }
 }
 
+const findAllGroup = async ({}) => {
+    try
+    {
+        return await groupsModel.find({}).exec();
+    }
+    catch(err)
+    {
+        return null;
+    }
+}
+
 
 module.exports = {
-    findByIdGroup
+    findByIdGroup, findAllGroup
 }
