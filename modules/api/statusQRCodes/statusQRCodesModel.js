@@ -1,12 +1,11 @@
 const mongoose = require('mongoose');
 const statusQRCodesSchema = require('./statusQRCodesSchema');
-let statusQRCodesModel = mongoose.model('statusQRCodes', statusQRCodesSchema);
+let statusQRCodesModel = mongoose.model('statusQRCodes', statusQRCodesSchema, 'statusQRCodes');
 
 const selectAllStatus = async({}) => {
     try
     {
-        console.log(await statusQRCodesModel.find({}));
-        return await statusQRCodesModel.find({});
+        return await statusQRCodesModel.find({}).exec();
     }
     catch(err)
     {

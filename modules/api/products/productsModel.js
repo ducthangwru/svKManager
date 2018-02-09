@@ -41,6 +41,17 @@ const removeProduct = async(id) => {
     }
 }
 
+const selectProductForSchemeProducts = async(idProduct) => {
+    try
+    {
+        return await productsModel.findOne({_id : idProduct}).select('name model').exec();
+    }
+    catch(err)
+    {
+        return null;
+    }
+}
+
 module.exports = {
-    createProduct, updateProduct, removeProduct
+    createProduct, updateProduct, removeProduct, selectProductForSchemeProducts
 }

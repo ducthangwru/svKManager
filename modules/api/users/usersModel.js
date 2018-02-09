@@ -59,6 +59,19 @@ const selectUser = async(user) => {
     }
 }
 
+const selectUserForScheme = async(iduser) => {
+    try
+    {
+        return await usersModel.findOne({_id : iduser}).select('fullname').exec();
+    }
+    catch(err)
+    {
+        console.log(err);
+        return null;
+    }
+}
+
+
 const updateTokenFirebaseUser = async (iduser, tokenfirebase) => {
     try
     {
@@ -94,5 +107,5 @@ const changePassword = async(user) => {
     }
 }
 module.exports = {
-    createUser, updateUser, selectUser, updateTokenFirebaseUser, changePassword
+    createUser, updateUser, selectUser, updateTokenFirebaseUser, changePassword, selectUserForScheme
 }
