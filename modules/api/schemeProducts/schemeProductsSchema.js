@@ -5,7 +5,7 @@ const ObjectId = Schema.Types.ObjectId;
 
 const schemeProductsSchema = new Schema(
     {
-        idProduct : {type : ObjectId, require : true},
+        product : {type : ObjectId, require : true},
         quantityDeploy : {type : Number, require : true},
         quantityDeployed : {type : Number, require : true, default : 0},
         quantityRemaining : {type : Number, require : true, default : 0}
