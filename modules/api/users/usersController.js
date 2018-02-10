@@ -86,8 +86,9 @@ Router.post('/login', async (req, res) => {
         }
 
         let doc = await usersModel.selectUser(user);
+        console.log(doc);
         if (doc === null) {
-            res.send({ status : false, msg : config.KHONG_THANH_CONG, data : null, token : ""});
+            res.send({ status : false, msg : config.TEN_TK_MK_KHONG_DUNG, data : null, token : ""});
         } else {
             let token = Utils.getToken(doc._id);
             let menus = await menusModel.findMenusByGroup(doc.group._id);
