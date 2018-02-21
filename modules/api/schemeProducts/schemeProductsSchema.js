@@ -12,4 +12,5 @@ const schemeProductsSchema = new Schema(
     }, {timestamps : {createAt : 'created_at', updateAt : 'updated_at'}}
 );
 
+
 module.exports = schemeProductsSchema;

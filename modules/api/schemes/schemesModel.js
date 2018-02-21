@@ -10,28 +10,21 @@ const customersModel = mongoose.model('customers', customersSchema, 'customers')
 
 const usersSchema = require('../users/usersSchema');
 const usersModel = mongoose.model('users', usersSchema, 'users');
+const users = require('../users/usersModel');
 
 const schemeProductsSchema = require('../schemeProducts/schemeProductsSchema');
 const schemeProductsModel = mongoose.model('schemeProducts', schemeProductsSchema, 'schemeProducts');
+const schemeProducts = require('../schemeProducts/schemeProductsModel');
 
 const productsSchema = require('../products/productsSchema');
 const productsModel = mongoose.model('products', productsSchema, 'products');
 
 const statusSchemesSchema = require('../statusSchemes/statusSchemesSchema');
-const statusSchemes = mongoose.model('statusSchemes', statusSchemesSchema);
+const statusSchemesModel = mongoose.model('statusSchemes', statusSchemesSchema, 'statusSchemes');
 
 const selectSchemeByIdUser = async(id) => {
     try
     {
-        console.log(id);
-
-        schemesSchema.virtual('statusSchemess', {
-            ref: 'statusSchemes',
-            localField: 'status',
-            foreignField: 'idStatus',
-            justOne: true // for many-to-1 relationships
-          });
-
         return await schemesModel.find(ObjectId(id))
         .populate
         (
@@ -58,7 +51,10 @@ const selectSchemeByIdUser = async(id) => {
         )
         .populate
         (
-            'statusSchemess'
+            {
+                path : 'status',
+                model : statusSchemesModel
+            }
         )
         .exec();
     }
@@ -69,6 +65,40 @@ const selectSchemeByIdUser = async(id) => {
     }
 }
 
+const createScheme = async(scheme) => {
+    try
+    {
+        let user = await users.selectUserForScheme(scheme.idlogin);
+        if(user.group.isadmin)
+        {
+            scheme.schemeProducts = [];
+
+            scheme.listProduct.forEach(async function(element, index, arr) {
+                let result = await schemeProducts.createSchemeProduct({product : element.product, quantityDeploy : element.quantityDeploy});
+                scheme.schemeProducts.push(result._id);
+
+                if(index === arr.length - 1)
+                {
+                    await schemesModel.create(scheme);
+                    return 1;
+                }
+            });
+
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+        
+    }
+    catch(err)
+    {
+        console.log(err);
+        return -1;
+    }
+}
+
 module.exports = {
-    selectSchemeByIdUser
+    selectSchemeByIdUser, createScheme
 }

@@ -62,7 +62,10 @@ const selectUser = async(user) => {
 const selectUserForScheme = async(iduser) => {
     try
     {
-        return await usersModel.findOne({_id : iduser}).select('fullname').exec();
+        return await usersModel.findOne({_id : iduser}).populate({
+            path: 'group',
+            model: groupsModel 
+          }).exec();
     }
     catch(err)
     {

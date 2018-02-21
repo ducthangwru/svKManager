@@ -8,7 +8,7 @@ const schemesSchema = new Schema(
         customer : {type : ObjectId, require : true},
         user : {type : ObjectId, require : true},
         schemeProducts : [{type : ObjectId, require : true}],
-        status : {type : Number, require : true}
+        status : {type : ObjectId, require : true}
     }, {timestamps : {createAt : 'created_at', updateAt : 'updated_at'}}
     ,{
         toObject: {virtuals:true}
