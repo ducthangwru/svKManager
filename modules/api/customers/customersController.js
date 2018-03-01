@@ -41,6 +41,7 @@ Router.put('/', async(req, res) => {
     try
     {
         let customer = {
+            _id : req.body._id,
             code : req.body.code,
             name : req.body.name,
             phoneNumber : req.body.phoneNumber,
