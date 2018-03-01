@@ -6,9 +6,7 @@ const ObjectId = Schema.Types.ObjectId;
 const schemeProductDetailsSchema = new Schema(
     {
         schemeProduct : {type : ObjectId, require : true},
-        quantityDeploy : {type : Number, require : true},
-        quantityDeployed : {type : Number, require : true, default : 0},
-        quantityRemaining : {type : Number, require : true, default : 0}
+        
     }, {timestamps : {createAt : 'created_at', updateAt : 'updated_at'}}
 );
 

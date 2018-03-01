@@ -35,6 +35,7 @@ Router.put('/', async(req, res) => {
     try
     {
         let product = {
+            _id : req.body._id,
             name : req.body.name,
             model : req.body.model
         }
