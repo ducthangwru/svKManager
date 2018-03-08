@@ -99,6 +99,34 @@ const createScheme = async(scheme) => {
     }
 }
 
+const findSchemeByIdSchemeProduct = async(id) => {
+    try
+    {
+        return await schemesModel.find({schemeProducts : [id]}).exec();
+    }
+    catch(err)
+    {
+        return null;
+    }
+}
+
+const updateStatusScheme = async(id, status) => {
+    try
+    {
+        var id = id;
+        var queryUpdate = {
+            status : status
+        }
+    
+        return await schemesModel.findOneAndUpdate(id, queryUpdate).exec();
+    }
+    catch(err)
+    {
+        console.log(err);
+        return null;
+    }
+}
+
 module.exports = {
-    selectSchemeByIdUser, createScheme
+    selectSchemeByIdUser, createScheme, findSchemeByIdSchemeProduct, updateStatusScheme
 }

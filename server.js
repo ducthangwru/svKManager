@@ -11,7 +11,7 @@ const qrcodeApi = require('./modules/api/qrcodes/qrcodesController');
 const statusQRCodeApi = require('./modules/api/statusQRCodes/statusQRCodesController');
 const schemeApi = require('./modules/api/schemes/schemesController');
 const statusSchemeApi = require('./modules/api/statusSchemes/statusSchemesController');
-
+const schemeProductDetailApi = require('./modules/api/schemeProductDetails/schemeProductDetailsController');
 var app = express();
 
 app.use(bodyParser.json({ extended : true}));
@@ -25,6 +25,7 @@ app.use('/api/qrcode', qrcodeApi);
 app.use('/api/statusQRCode', statusQRCodeApi);
 app.use('/api/scheme', schemeApi);
 app.use('/api/statusScheme', statusSchemeApi);
+app.use('/api/schemeProductDetail', schemeProductDetailApi);
 
 mongoose.connect(config.connectionString, (err) => {
   if (err) {

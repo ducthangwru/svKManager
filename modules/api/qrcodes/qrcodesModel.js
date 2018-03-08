@@ -17,21 +17,47 @@ const createQRCode = async(qrcode) => {
     }
 }
 
-const removeQRCode = async(id) => {
+const findQRCodebyCode = async(code) => {
     try
     {
-        let result = await qrcodesModel.find({_id : id, status : {$ne : 1}}).exec();
-        if(result.length != 0)
-            return await qrcodesModel.remove({_id : id}).exec();
-        else 
-            return -1;
+        return await qrcodesModel.findOne({code : code}).exec();
     }
     catch(err)
     {
+        console.log(err);
+        return null;
+    }
+}
+
+const updateQRCode = async(idQRCode, status) => {
+    try
+    {
+        var id = idQRCode;
+        var queryUpdate = {
+            status : status
+        }
+    
+        return await qrcodesModel.findOneAndUpdate(id, queryUpdate).exec();
+    }
+    catch(err)
+    {
+        console.log(err);
+        return null;
+    }
+}
+
+const removeQRCode = async(id) => {
+    try
+    {
+        return await qrcodesModel.remove({_id : id}).exec();
+    }
+    catch(err)
+    {
+        console.log(err);
         return 0;
     }
 }
 
 module.exports = {
-    createQRCode, removeQRCode
+    createQRCode, removeQRCode, findQRCodebyCode, updateQRCode
 }

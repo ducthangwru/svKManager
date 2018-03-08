@@ -6,7 +6,7 @@ const ObjectId = Schema.Types.ObjectId;
 const qrcodesSchema = new Schema(
     {
         code : {type : String, require : true},
-        status : {type : Number, require : true}
+        status : {type : ObjectId, require : true}
     }, {timestamps : {createAt : 'created_at', updateAt : 'updated_at'}}
 );
 
@@ -22,7 +22,7 @@ qrcodesSchema.pre('save', function(next) {
         else
         {                
             //console.log('user exists: ',user.username);
-            next(new Error("User exists!"));
+            next(new Error(" exists!"));
         }
     });
 });

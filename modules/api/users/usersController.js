@@ -53,7 +53,6 @@ Router.put('/', async (req, res) => {
             tokenfirebase : req.body.tokenfirebase,
             fullname: req.body.fullname,
             dateofbirth: req.body.dateofbirth,
-            status : req.body.status,
             group : req.body.group
         };
         if(!Utils.verifyLogin(req.body.idlogin, req.headers['token']))

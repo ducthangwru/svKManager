@@ -18,6 +18,37 @@ const createSchemeProduct = async(schemeProduct) => {
     }
 }
 
+const findSchemeProductById = async(id) => {
+    try
+    {
+        return await schemeProductsModel.findById({_id : id}).exec();
+    }
+    catch(err)
+    {
+        console.log(err);
+        return null;
+    }
+}
+
+const updateSchemeProduct = async(id, quantityDeployed, quantityRemaining) => {
+    try
+    {
+        var id = id;
+        var queryUpdate = {
+            quantityDeployed : quantityDeployed,
+            quantityRemaining : quantityRemaining
+        }
+
+        return await schemeProductsModel.findOneAndUpdate(id, queryUpdate).exec();
+    }
+    catch(err)
+    {
+        console.log(err);
+        return null;
+    }
+}
+
+
 module.exports = {
-    createSchemeProduct
+    createSchemeProduct, findSchemeProductById, updateSchemeProduct
 }
