@@ -30,6 +30,7 @@ Router.post('/', async(req, res) => {
     try
     {
         let scheme = {
+            name : req.body.name,
             idlogin : req.body.idlogin,
             user : req.body.user,
             customer : req.body.customer,

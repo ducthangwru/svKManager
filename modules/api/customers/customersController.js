@@ -8,6 +8,7 @@ Router.post('/', async(req, res) => {
     try
     {
         let customer = {
+            user : req.body.idlogin,
             code : req.body.code,
             name : req.body.name,
             phoneNumber : req.body.phoneNumber,
@@ -85,6 +86,31 @@ Router.delete('/', async(req, res) => {
                 res.send({status : false, msg : config.CO_LOI_XAY_RA});
             else 
                 res.send({ status : true, msg : config.THANH_CONG});
+        }
+    }
+    catch(err)
+    {
+        res.send({status : false, msg : config.CO_LOI_XAY_RA});
+    }
+});
+
+Router.get('/', async(req, res) => {
+    try
+    {
+        if(!Utils.verifyLogin(req.query.idlogin, req.headers['token']))
+        {
+            res.send({status : false, msg : config.MA_TOKEN_KHONG_DUNG});
+        }
+        else
+        {
+            let result = await customersModel.findCustomer(req.query.idlogin);
+
+            if(result === null)
+                res.send({status : false, msg : config.CO_LOI_XAY_RA, data : null});
+            else if(result === {})
+                res.send({status : false, msg : config.KHONG_CO_DU_LIEU, data : null});
+            else
+                res.send({ status : true, msg : config.THANH_CONG, data : result});
         }
     }
     catch(err)

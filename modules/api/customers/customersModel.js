@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const customersSchema = require('./customersSchema');
 let customersModel = mongoose.model('customers', customersSchema);
+const Schema = mongoose.Schema;
+const ObjectId = Schema.Types.ObjectId;
 
 const createCustomer = async (customer) => {
     try
@@ -48,6 +50,18 @@ const removeCustomer = async(id) => {
     }
 }
 
+const findCustomer = async(iduser) => {
+    try
+    {
+        return await customersModel.find({user : iduser}).exec();
+    }
+    catch(err)
+    {
+        console.log(err);
+        return null;
+    }
+}
+
 module.exports = {
-    createCustomer, updateCustomer, removeCustomer
+    createCustomer, updateCustomer, removeCustomer, findCustomer
 }
