@@ -113,6 +113,7 @@ Router.get('/', async(req, res) => {
                 res.send({ status : true, msg : config.THANH_CONG, data : result});
         }
     }
+    
     catch(err)
     {
         res.send({status : false, msg : config.CO_LOI_XAY_RA});
