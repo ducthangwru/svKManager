@@ -40,7 +40,7 @@ const createSchemeProductDetails = async(schemeProductDetail) => {
                     await schemesModel.updateStatusScheme(scheme._id, "5a7d042bfeb222491ae33ae3"); //Đang hoàn thành
                     if((schemeProduct.quantityRemaining - 1) === 0)
                     {
-                        await schemesModel.updateStatusScheme(scheme._id, "5a7d0436feb222491ae33bcf"); //Đã hoàn thành
+                        await schemesModel.updateStatusScheme(scheme._id, "5aceda1afeb222491ac92dcc"); //Đã hoàn thành
                     }
 
                     return 1;
