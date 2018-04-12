@@ -94,7 +94,7 @@ Router.delete('/', async(req, res) => {
     }
 });
 
-Router.get('/', async(req, res) => {
+Router.get('/all', async(req, res) => {
     try
     {
         if(!Utils.verifyLogin(req.query.idlogin, req.headers['token']))
