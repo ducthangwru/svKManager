@@ -4,7 +4,7 @@
     "DA_TON_TAI" : "Đã tồn tại!",
     "KHONG_THE_XOA" : "Không thể xóa!",
     "QRCODE_KHONG_TON_TAI" : "Mã QRCode không tồn tại",
-    "QRCODE_KHONG_KHA_DUNG" : "Mã QRCode không khả dụng",
+    "QRCODE_KHONG_KHA_DUNG" : "Mã QRCode đã gán",
     "QRCODE_KHA_DUNG" : "Mã QRCode khả dụng",
     "KHONG_THANH_CONG" : "Không thành công!",
     "KHONG_CO_DU_LIEU" : "Không có dữ liệu!",
