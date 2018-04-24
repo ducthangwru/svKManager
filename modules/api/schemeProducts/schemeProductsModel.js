@@ -39,7 +39,7 @@ const updateSchemeProduct = async(id, quantityDeployed, quantityRemaining) => {
             quantityRemaining : quantityRemaining
         }
 
-        return await schemeProductsModel.findOneAndUpdate(id, queryUpdate).exec();
+        return await schemeProductsModel.findByIdAndUpdate(id, queryUpdate).exec();
     }
     catch(err)
     {
