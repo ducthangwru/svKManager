@@ -22,7 +22,7 @@ const updateProduct = async(product) => {
             model : product.model
         }
     
-        return await productsModel.findOneAndUpdate(id, queryUpdate).exec();
+        return await productsModel.findByIdAndUpdate(id, queryUpdate).exec();
     }
     catch(err)
     {
