@@ -27,7 +27,7 @@ Router.post('/', async(req, res) => {
             if(result === -1)
                 res.send({status : false, msg : config.QRCODE_KHONG_TON_TAI});
             else if(result === -2)
-                res.send({status : false, msg : config.QROCDE_KHONG_KHA_DUNG});
+                res.send({status : false, msg : config.QRCODE_KHONG_KHA_DUNG});
             else
                 res.send({ status : true, msg : config.THANH_CONG});
         //}
