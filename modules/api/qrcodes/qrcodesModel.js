@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const qrcodesSchema = require('./qrcodesSchema');
-let qrcodesModel = mongoose.model('qrcodes', qrcodesSchema);
+const qrcodesModel = mongoose.model('qrcodes', qrcodesSchema);
+const statusQRCodesSchema = require('../statusQRCodes/statusQRCodesSchema');
+const statusQRCodesModel = mongoose.model('statusQRCodes', statusQRCodesSchema, 'statusQRCodes');
 
 const createQRCode = async(qrcode) => {
     try
@@ -20,7 +22,14 @@ const createQRCode = async(qrcode) => {
 const findQRCodebyCode = async(code) => {
     try
     {
-        return await qrcodesModel.findOne({code : code}).exec();
+        return await qrcodesModel.findOne({code : code})
+        .populate(
+            {
+                path : 'status',
+                model : statusQRCodesModel
+            }
+        )
+        .exec();
     }
     catch(err)
     {
@@ -58,6 +67,19 @@ const removeQRCode = async(id) => {
     }
 }
 
+const selectQRCodeByCode = (code, callback) => {
+    qrcodesModel.findOne({code : code})
+        .populate(
+            {
+                path : 'status',
+                model : statusQRCodesModel
+            }
+        )
+        .exec(function(err, doc) {
+            callback(doc);
+        });
+}
+
 module.exports = {
-    createQRCode, removeQRCode, findQRCodebyCode, updateQRCode
+    createQRCode, removeQRCode, findQRCodebyCode, updateQRCode, selectQRCodeByCode
 }

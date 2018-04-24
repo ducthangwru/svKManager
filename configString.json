@@ -5,6 +5,7 @@
     "KHONG_THE_XOA" : "Không thể xóa!",
     "QRCODE_KHONG_TON_TAI" : "Mã QRCode không tồn tại",
     "QRCODE_KHONG_KHA_DUNG" : "Mã QRCode không khả dụng",
+    "QRCODE_KHA_DUNG" : "Mã QRCode khả dụng",
     "KHONG_THANH_CONG" : "Không thành công!",
     "KHONG_CO_DU_LIEU" : "Không có dữ liệu!",
     "MA_TOKEN_KHONG_DUNG" : "Mã token không đúng!",

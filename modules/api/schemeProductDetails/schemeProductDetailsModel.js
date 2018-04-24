@@ -64,20 +64,16 @@ const createSchemeProductDetails = async(schemeProductDetail) => {
 const selectSchemeProductDetails = async(idProduct, QRCode) => {
     console.log(QRCode);
     //Nếu lọc theo QRCode
-    if(idProduct === "")
-    {
-    return await schemeProductDetailsModel.find({qrCode : {$ne : null}})
+    return await schemeProductDetailsModel.find({})
         .populate({
             path: 'schemeProduct',
             model: schemeProductsMd
           })
         .populate({
             path: 'qrCode',
-            model: qrcodesMd,
-            match : {code : QRCode}
+            model: qrcodesMd
         })
         .exec();
-    }
 }
 module.exports = {
     createSchemeProductDetails, selectSchemeProductDetails

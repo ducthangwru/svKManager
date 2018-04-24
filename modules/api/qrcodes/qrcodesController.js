@@ -33,6 +33,25 @@ Router.post('/', async(req, res) => {
     }
 });
 
+Router.get('/', (req, res) => {
+    try
+    {
+        let qrcode = req.query.qrcode || "";
+        qrcodesModel.selectQRCodeByCode(qrcode, (doc) => {
+            if(doc === null)
+                res.send({status : false, msg : config.QRCODE_KHONG_TON_TAI});
+            else if(doc.status.statusName !== 'Đã kích hoạt')
+                res.send({status : false, msg : config.QRCODE_KHONG_KHA_DUNG});
+            else
+                res.send({status : true, msg : config.QRCODE_KHA_DUNG});
+        });
+    }
+    catch(err)
+    {
+        res.send({status : false, msg : config.CO_LOI_XAY_RA});
+    }
+});
+
 Router.delete('/', async(req, res) => {
     try
     {
