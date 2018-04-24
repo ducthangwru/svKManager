@@ -60,7 +60,7 @@ const createSchemeProductDetails = async(schemeProductDetail) => {
     }
 }
 
-const replaceSchemeProductDetails = async(idSchemeProductDetail, idSchemeProduct, QRCode) => {
+const replaceSchemeProductDetails = async(idSchemeProductDetail, QRCode) => {
     try
     {
         //Kiểm tra QRCode
@@ -70,21 +70,15 @@ const replaceSchemeProductDetails = async(idSchemeProductDetail, idSchemeProduct
             //Nếu qrCode đã kích hoạt
             if(qrCode.status.statusName === "Đã kích hoạt")
             {
-                let result = await schemeProductDetailsModel.findByIdAndUpdate(idSchemeProductDetail, {});
+                //Lấy QR cũ
+                let qrOld = await schemeProductDetailsModel.findById(idSchemeProductDetail).exec();
+                let result = await schemeProductDetailsModel.findByIdAndUpdate(idSchemeProductDetail, {qrCode : qrCode._id}).exec();
                 if(result !== null)
                 {
                     //Thay đổi trạng thái QRCode
                     await qrcodesModel.updateQRCode(qrCode._id, "5a7a6ee4feb222491ab93ef5"); // Đã gán
-                    //Cộng số lượng đã gán
-                    let schemeProduct = await schemeProductsModel.findSchemeProductById(schemeProductDetail.schemeProduct);
-                    await schemeProductsModel.updateSchemeProduct(schemeProduct._id, parseInt(schemeProduct.quantityDeployed) + 1, parseInt(schemeProduct.quantityRemaining) - 1);
-
-                    let scheme = await schemesModel.findSchemeByIdSchemeProduct(schemeProductDetailsModel.schemeProduct);
-                    await schemesModel.updateStatusScheme(scheme._id, "5a7d042bfeb222491ae33ae3"); //Đang hoàn thành
-                    if((schemeProduct.quantityRemaining - 1) === 0)
-                    {
-                        await schemesModel.updateStatusScheme(scheme._id, "5aceda1afeb222491ac92dcc"); //Đã hoàn thành
-                    }
+                    //Thay đổi trạng thái QRCode cũ sang đã hủy
+                    await qrcodesModel.updateQRCode(qrOld.qrCode, "5aa08d1ffeb222491a1bb670"); // Đã hủy
 
                     return 1;
                 }
@@ -118,5 +112,6 @@ const selectSchemeProductDetails = async(idProduct, QRCode) => {
         .exec();
 }
 module.exports = {
-    createSchemeProductDetails, selectSchemeProductDetails
+    createSchemeProductDetails, selectSchemeProductDetails,
+    replaceSchemeProductDetails
 }

@@ -46,8 +46,7 @@ Router.get('/', async(req, res) => {
         let QRCode = req.query.qrcode || "";
 
         let data = await schemeProductDetailsModel.selectSchemeProductDetails(idProduct, QRCode);
-        console.log(data);
-            res.send({status : true, msg : config.THANH_CONG, data : data});
+        res.send({status : true, msg : config.THANH_CONG, data : data});
 
     }
     catch(err)
@@ -56,4 +55,26 @@ Router.get('/', async(req, res) => {
         res.send({status : false, msg : config.KHONG_THANH_CONG, data : null});
     }
 });
+
+Router.put('/', async(req, res) => {
+    try
+    {
+        let idlogin = req.query.idlogin || "";
+        let idSchemeProductDetail = req.query.idschemeproductdetail || "";
+        let QRCode = req.query.qrcode || "";
+
+        let data = await schemeProductDetailsModel.replaceSchemeProductDetails(idSchemeProductDetail, QRCode);
+        if(!data)
+            res.send({status : true, msg : config.THANH_CONG});
+        else
+            res.send({status : true, msg : config.KHONG_THANH_CONG});
+
+    }
+    catch(err)
+    {
+        console.log(err);
+        res.send({status : false, msg : config.KHONG_THANH_CONG, data : null});
+    }
+});
+
 module.exports = Router;
