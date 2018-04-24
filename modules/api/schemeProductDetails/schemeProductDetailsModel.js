@@ -7,10 +7,11 @@ const schemeProductDetailsModel = mongoose.model('schemeProductDetails', schemeP
 
 const qrcodesSchema = require('../qrcodes/qrcodesSchema');
 const qrcodesModel = require('../qrcodes/qrcodesModel');
+const qrcodesMd = mongoose.model('qrcodes', qrcodesSchema, 'qrcodes');
 
 const schemeProductsSchema = require('../schemeProducts/schemeProductsSchema');
 const schemeProductsModel = require('../schemeProducts/schemeProductsModel');
-
+const schemeProductsMd = mongoose.model('schemeProducts', schemeProductsSchema, 'schemeProducts');
 
 const schemesSchema = require('../schemes/schemesSchema');
 const schemesModel = require('../schemes/schemesModel');
@@ -60,6 +61,24 @@ const createSchemeProductDetails = async(schemeProductDetail) => {
     }
 }
 
+const selectSchemeProductDetails = async(idProduct, QRCode) => {
+    console.log(QRCode);
+    //Nếu lọc theo QRCode
+    if(idProduct === "")
+    {
+    return await schemeProductDetailsModel.find({qrCode : {$ne : null}})
+        .populate({
+            path: 'schemeProduct',
+            model: schemeProductsMd
+          })
+        .populate({
+            path: 'qrCode',
+            model: qrcodesMd,
+            match : {code : QRCode}
+        })
+        .exec();
+    }
+}
 module.exports = {
-    createSchemeProductDetails
+    createSchemeProductDetails, selectSchemeProductDetails
 }

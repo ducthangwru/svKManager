@@ -38,5 +38,22 @@ Router.post('/', async(req, res) => {
     }
 });
 
+Router.get('/', async(req, res) => {
+    try
+    {
+        let idlogin = req.query.idlogin || "";
+        let idProduct = req.query.idproduct || "";
+        let QRCode = req.query.qrcode || "";
 
+        let data = await schemeProductDetailsModel.selectSchemeProductDetails(idProduct, QRCode);
+        console.log(data);
+            res.send({status : true, msg : config.THANH_CONG, data : data});
+
+    }
+    catch(err)
+    {
+        console.log(err);
+        res.send({status : false, msg : config.KHONG_THANH_CONG, data : null});
+    }
+});
 module.exports = Router;
