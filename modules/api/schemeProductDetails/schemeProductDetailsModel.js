@@ -19,13 +19,12 @@ const schemesModel = require('../schemes/schemesModel');
 const createSchemeProductDetails = async(schemeProductDetail) => {
     try
     {
-        console.log(schemeProductDetail);
         //Kiểm tra QRCode
         let qrCode = await qrcodesModel.findQRCodebyCode(schemeProductDetail.qrCode);
         if(qrCode !== null && qrCode !== {})
         {
             //Nếu qrCode đã kích hoạt
-            if(ObjectId(qrCode.status) === ObjectId("5a7a6f07feb222491ab93fac"))
+            if(qrCode.status.statusName === "Đã kích hoạt")
             {
                 schemeProductDetail.qrCode = qrCode._id;
                 let result = await schemeProductDetailsModel.create(schemeProductDetail);
@@ -35,7 +34,7 @@ const createSchemeProductDetails = async(schemeProductDetail) => {
                     await qrcodesModel.updateQRCode(qrCode._id, "5a7a6ee4feb222491ab93ef5"); // Đã gán
                     //Cộng số lượng đã gán
                     let schemeProduct = await schemeProductsModel.findSchemeProductById(schemeProductDetail.schemeProduct);
-                    await schemeProductsModel.updateSchemeProduct(schemeProduct._id, schemeProduct.quantityDeployed + 1, schemeProduct.quantityRemaining - 1);
+                    await schemeProductsModel.updateSchemeProduct(schemeProduct._id, parseInt(schemeProduct.quantityDeployed) + 1, parseInt(schemeProduct.quantityRemaining) - 1);
 
                     let scheme = await schemesModel.findSchemeByIdSchemeProduct(schemeProductDetailsModel.schemeProduct);
                     await schemesModel.updateStatusScheme(scheme._id, "5a7d042bfeb222491ae33ae3"); //Đang hoàn thành

@@ -17,12 +17,12 @@ Router.post('/', async(req, res) => {
             note : req.body.note
         }
 
-        if(!Utils.verifyLogin(req.body.idlogin, req.headers['token']))
-        {
-            res.send({status : false, msg : config.MA_TOKEN_KHONG_DUNG});
-        }
-        else
-        {
+        // if(!Utils.verifyLogin(req.body.idlogin, req.headers['token']))
+        // {
+        //     res.send({status : false, msg : config.MA_TOKEN_KHONG_DUNG});
+        // }
+        // else
+        // {
             let result = await schemeProductDetailsModel.createSchemeProductDetails(schemeProductDetail);
             if(result === -1)
                 res.send({status : false, msg : config.QRCODE_KHONG_TON_TAI});
@@ -30,7 +30,7 @@ Router.post('/', async(req, res) => {
                 res.send({status : false, msg : config.QROCDE_KHONG_KHA_DUNG});
             else
                 res.send({ status : true, msg : config.THANH_CONG});
-        }
+        //}
     }
     catch(err)
     {
