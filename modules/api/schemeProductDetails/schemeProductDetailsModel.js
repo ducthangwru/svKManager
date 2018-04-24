@@ -60,6 +60,49 @@ const createSchemeProductDetails = async(schemeProductDetail) => {
     }
 }
 
+const replaceSchemeProductDetails = async(idSchemeProductDetail, idSchemeProduct, QRCode) => {
+    try
+    {
+        //Kiểm tra QRCode
+        let qrCode = await qrcodesModel.findQRCodebyCode(QRCode);
+        if(qrCode !== null && qrCode !== {})
+        {
+            //Nếu qrCode đã kích hoạt
+            if(qrCode.status.statusName === "Đã kích hoạt")
+            {
+                let result = await schemeProductDetailsModel.findByIdAndUpdate(idSchemeProductDetail, {});
+                if(result !== null)
+                {
+                    //Thay đổi trạng thái QRCode
+                    await qrcodesModel.updateQRCode(qrCode._id, "5a7a6ee4feb222491ab93ef5"); // Đã gán
+                    //Cộng số lượng đã gán
+                    let schemeProduct = await schemeProductsModel.findSchemeProductById(schemeProductDetail.schemeProduct);
+                    await schemeProductsModel.updateSchemeProduct(schemeProduct._id, parseInt(schemeProduct.quantityDeployed) + 1, parseInt(schemeProduct.quantityRemaining) - 1);
+
+                    let scheme = await schemesModel.findSchemeByIdSchemeProduct(schemeProductDetailsModel.schemeProduct);
+                    await schemesModel.updateStatusScheme(scheme._id, "5a7d042bfeb222491ae33ae3"); //Đang hoàn thành
+                    if((schemeProduct.quantityRemaining - 1) === 0)
+                    {
+                        await schemesModel.updateStatusScheme(scheme._id, "5aceda1afeb222491ac92dcc"); //Đã hoàn thành
+                    }
+
+                    return 1;
+                }
+            }
+
+            return -2; //QRCode không khả dụng
+        }
+        
+        return -1; //Không tồn tại QRCode
+    }
+    catch(err)
+    {
+        console.log(err);
+
+        return null;
+    }
+}
+
 const selectSchemeProductDetails = async(idProduct, QRCode) => {
     console.log(QRCode);
     //Nếu lọc theo QRCode

@@ -38,15 +38,15 @@ const findQRCodebyCode = async(code) => {
     }
 }
 
-const updateQRCode = async(idQRCode, status) => {
+const updateQRCode = async(idQRCode, statusS) => {
     try
     {
         var id = idQRCode;
         var queryUpdate = {
-            status : status
+            status : statusS
         }
     
-        return await qrcodesModel.findOneAndUpdate(id, queryUpdate).exec();
+        return await qrcodesModel.findByIdAndUpdate(id, queryUpdate).exec();
     }
     catch(err)
     {
