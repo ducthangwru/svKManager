@@ -13,6 +13,9 @@ const schemeProductsSchema = require('../schemeProducts/schemeProductsSchema');
 const schemeProductsModel = require('../schemeProducts/schemeProductsModel');
 const schemeProductsMd = mongoose.model('schemeProducts', schemeProductsSchema, 'schemeProducts');
 
+const productSchema = require('../products/productsSchema');
+const productMd = mongoose.model('products', productSchema, 'products');
+
 const schemesSchema = require('../schemes/schemesSchema');
 const schemesModel = require('../schemes/schemesModel');
 
@@ -103,7 +106,12 @@ const selectSchemeProductDetails = async(idProduct, QRCode) => {
     return await schemeProductDetailsModel.find({})
         .populate({
             path: 'schemeProduct',
-            model: schemeProductsMd
+            model: schemeProductsMd,
+            populate : 
+                {
+                    path : 'product',
+                    model: productMd
+                }
           })
         .populate({
             path: 'qrCode',

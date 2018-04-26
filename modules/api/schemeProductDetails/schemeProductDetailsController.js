@@ -64,10 +64,10 @@ Router.put('/', async(req, res) => {
         let QRCode = req.query.qrcode || "";
 
         let data = await schemeProductDetailsModel.replaceSchemeProductDetails(idSchemeProductDetail, QRCode);
-        if(!data)
+        if(data !== null)
             res.send({status : true, msg : config.THANH_CONG});
         else
-            res.send({status : true, msg : config.KHONG_THANH_CONG});
+            res.send({status : false, msg : config.KHONG_THANH_CONG});
 
     }
     catch(err)
