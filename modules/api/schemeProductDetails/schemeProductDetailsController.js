@@ -2,6 +2,7 @@ const express = require('express');
 const moment = require('moment');
 const Router = express.Router();
 const schemeProductDetailsModel = require('./schemeProductDetailsModel');
+const schemeModel = require('../schemes/schemesModel');
 const config = require('../../../configString.json');
 const Utils = require('../../../utils/Utils');
 
@@ -38,16 +39,29 @@ Router.post('/', async(req, res) => {
     }
 });
 
-Router.get('/', async(req, res) => {
+Router.get('/', (req, res) => {
     try
     {
         let idlogin = req.query.idlogin || "";
         let idProduct = req.query.idproduct || "";
         let QRCode = req.query.qrcode || "";
 
-        let data = await schemeProductDetailsModel.selectSchemeProductDetails(idProduct, QRCode);
-        res.send({status : true, msg : config.THANH_CONG, data : data});
-
+        schemeProductDetailsModel.selectSchemeProductDetails(idProduct, QRCode, (doc) => {
+            for (let i = 0; i < doc.length; i++) {
+                console.log(doc.length);
+                
+                schemeModel.selectSchemeByIdSchemeProduct(doc[i].schemeProduct._id, (result) => {
+                    doc[i].customer = {};
+                    doc[i].customer = result;
+                    if(i === doc.length - 1)
+                    {
+                        res.send({status : true, msg : config.THANH_CONG, data : doc});
+                    }
+                });
+              
+            }
+        });
+        
     }
     catch(err)
     {

@@ -100,10 +100,10 @@ const replaceSchemeProductDetails = async(idSchemeProductDetail, QRCode) => {
     }
 }
 
-const selectSchemeProductDetails = async(idProduct, QRCode) => {
+const selectSchemeProductDetails = (idProduct, QRCode, callback) => {
     console.log(QRCode);
     //Nếu lọc theo QRCode
-    return await schemeProductDetailsModel.find({})
+    schemeProductDetailsModel.find({})
         .populate({
             path: 'schemeProduct',
             model: schemeProductsMd,
@@ -117,8 +117,12 @@ const selectSchemeProductDetails = async(idProduct, QRCode) => {
             path: 'qrCode',
             model: qrcodesMd
         })
-        .exec();
+        .exec(function(err, doc) {
+            callback(doc);
+        });
 }
+
+
 module.exports = {
     createSchemeProductDetails, selectSchemeProductDetails,
     replaceSchemeProductDetails

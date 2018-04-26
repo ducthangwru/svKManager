@@ -102,7 +102,30 @@ const createScheme = async(scheme) => {
 const findSchemeByIdSchemeProduct = async(id) => {
     try
     {
-        return await schemesModel.find({schemeProducts : [id]}).exec();
+        return await schemesModel.find({schemeProducts : [id]})
+        .populate({
+            path : 'customer',
+            model : customersModel
+        })
+        .exec();
+    }
+    catch(err)
+    {
+        return null;
+    }
+}
+
+const selectSchemeByIdSchemeProduct = (id, callback) => {
+    try
+    {
+        schemesModel.find({schemeProducts : [id]})
+        .populate({
+            path : 'customer',
+            model : customersModel
+        })
+        .exec(function(err, doc) {
+            callback(doc);
+        });
     }
     catch(err)
     {
@@ -128,5 +151,6 @@ const updateStatusScheme = async(id, status) => {
 }
 
 module.exports = {
-    selectSchemeByIdUser, createScheme, findSchemeByIdSchemeProduct, updateStatusScheme
+    selectSchemeByIdUser, createScheme, findSchemeByIdSchemeProduct, updateStatusScheme,
+    selectSchemeByIdSchemeProduct
 }
