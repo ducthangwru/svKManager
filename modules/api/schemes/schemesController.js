@@ -39,12 +39,12 @@ Router.post('/', async(req, res) => {
             status : "5a7d040efeb222491ae3399e" //Status Mới
 
         }
-        if(!Utils.verifyLogin(req.body.idlogin, req.headers['token']))
-        {
-            res.send({status : false, msg : config.MA_TOKEN_KHONG_DUNG});
-        }
-        else
-        {
+        // if(!Utils.verifyLogin(req.body.idlogin, req.headers['token']))
+        // {
+        //     res.send({status : false, msg : config.MA_TOKEN_KHONG_DUNG});
+        // }
+        // else
+        // {
             let result = await schemesModel.createScheme(scheme);
 
             if(result === -1)
@@ -53,7 +53,7 @@ Router.post('/', async(req, res) => {
                 res.send({ status : true, msg : config.KHONG_THANH_CONG});
             else
                 res.send({ status : true, msg : config.THANH_CONG});
-        }
+        //}
     }
     catch(err)
     {
