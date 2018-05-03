@@ -13,6 +13,7 @@ const usersSchema = new Schema(
         group : {type : ObjectId},
         avatar : {type: String},
         email : {type : String},
+        phonenumber : {type : String},
         status : {type : Boolean}
     }, {timestamps : {createAt : 'created_at', updateAt : 'updated_at'}}
 );

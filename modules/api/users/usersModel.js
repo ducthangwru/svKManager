@@ -28,7 +28,8 @@ const updateUser = async(user) => {
             avatar : user.avatar,
             password : user.password,
             email : user.email,
-            group : user.group
+            group : user.group,
+            phonenumber : user.phonenumber
         }
     
         return await usersModel.findOneAndUpdate(id, queryUpdate).exec();
@@ -63,7 +64,10 @@ const selectAllUser = async(user) => {
     try
     {
     
-        return await usersModel.find({}).exec();
+        return await usersModel.find({'group.isadmin' : false}).populate({
+            path: 'group',
+            model: groupsModel 
+          }).exec();
     }
     catch(err)
     {
