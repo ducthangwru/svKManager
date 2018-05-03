@@ -30,7 +30,60 @@ const selectSchemeByIdUser = async(id) => {
         (
             {
                 path : 'customer',
-                model : customersModel
+                model : customersModel,
+                populate : {
+                    path : 'users',
+                    model : usersModel,
+                    select : 'fullname'
+                }
+            }
+        )
+        .populate
+        (
+            {
+                path : 'user',
+                model : usersModel,
+                select : 'fullname'
+            }
+        )
+        .populate
+        (
+            {
+                path : 'schemeProducts',
+                model : schemeProductsModel,
+                populate : {path : 'product', model : productsModel}
+            }
+        )
+        .populate
+        (
+            {
+                path : 'status',
+                model : statusSchemesModel
+            }
+        )
+        .exec();
+    }
+    catch(err)
+    {
+        console.log(err);
+        return null;
+    }
+}
+
+const selectSchemeAll = async(id) => {
+    try
+    {
+        return await schemesModel.find({})
+        .populate
+        (
+            {
+                path : 'customer',
+                model : customersModel,
+                populate : {
+                    path : 'users',
+                    model : usersModel,
+                    select : 'fullname'
+                }
             }
         )
         .populate
@@ -152,5 +205,6 @@ const updateStatusScheme = async(id, status) => {
 
 module.exports = {
     selectSchemeByIdUser, createScheme, findSchemeByIdSchemeProduct, updateStatusScheme,
-    selectSchemeByIdSchemeProduct
+    selectSchemeByIdSchemeProduct,
+    selectSchemeAll
 }

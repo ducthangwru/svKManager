@@ -4,7 +4,7 @@ const ObjectId = Schema.Types.ObjectId;
 
 const customersSchema = new Schema(
     {
-       user : {type : ObjectId, require : true},
+       users : [{type : ObjectId, require : true}],
        code : {type : String, require : true},
        name : {type : String, require : true},
        phoneNumber : {type : String, default : ""},

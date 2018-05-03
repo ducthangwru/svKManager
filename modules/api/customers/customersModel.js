@@ -4,6 +4,10 @@ let customersModel = mongoose.model('customers', customersSchema);
 const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
+const usersSchema = require('../users/usersSchema');
+const usersModel = mongoose.model('users', usersSchema, 'users');
+const users = require('../users/usersModel');
+
 const createCustomer = async (customer) => {
     try
     {
@@ -28,6 +32,7 @@ const updateCustomer = async (customer) => {
             longitude : customer.longitude,
             latitude : customer.latitude,
             note : customer.note,
+            users : customer.users,
             contact : customer.contact
         }
     
@@ -53,7 +58,33 @@ const removeCustomer = async(id) => {
 const findCustomer = async(iduser) => {
     try
     {
-        return await customersModel.find({user : iduser}).exec();
+        return await customersModel.find({users : iduser})
+        .populate
+        (
+            {
+                path : 'users',
+                model : usersModel
+            }
+        ).exec();
+    }
+    catch(err)
+    {
+        console.log(err);
+        return null;
+    }
+}
+
+const findAllCustomer = async(iduser) => {
+    try
+    {
+        return await customersModel.find({})
+        .populate
+        (
+            {
+                path : 'users',
+                model : usersModel
+            }
+        ).exec();
     }
     catch(err)
     {
@@ -63,5 +94,5 @@ const findCustomer = async(iduser) => {
 }
 
 module.exports = {
-    createCustomer, updateCustomer, removeCustomer, findCustomer
+    createCustomer, updateCustomer, removeCustomer, findCustomer, findAllCustomer
 }
