@@ -64,7 +64,7 @@ const selectAllUser = async(user) => {
     try
     {
     
-        return await usersModel.find({'group.isadmin' : false}).populate({
+        return await usersModel.find({}).populate({
             path: 'group',
             model: groupsModel 
           }).exec();
