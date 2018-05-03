@@ -9,7 +9,9 @@ const schemesSchema = new Schema(
         user : {type : ObjectId, require : true},
         schemeProducts : [{type : ObjectId, require : true}],
         status : {type : ObjectId, require : true},
-        name : {type : String, required : true}
+        name : {type : String, required : true},
+        fromDate :  {type : Date, required : true},
+        toDate : {type : Date, required : true}
     }, {timestamps : {createAt : 'created_at', updateAt : 'updated_at'}}
     ,{
         toObject: {virtuals:true}

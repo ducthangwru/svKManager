@@ -1,5 +1,6 @@
 const express = require('express');
 const Router = express.Router();
+const moment = require('moment');
 const schemesModel = require('../schemes/schemesModel');
 const config = require('../../../configString.json');
 const Utils = require('../../../utils/Utils');
@@ -57,6 +58,8 @@ Router.post('/', async(req, res) => {
             user : req.body.user,
             customer : req.body.customer,
             listProduct : req.body.listProduct,
+            fromDate : moment(req.body.fromdate),
+            toDate : moment(req.body.todate),
             //schemeProducts = req.body.schemeProducts,
             status : "5a7d040efeb222491ae3399e" //Status Mới
 
