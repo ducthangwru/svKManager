@@ -36,7 +36,7 @@ const updateCustomer = async (customer) => {
             contact : customer.contact
         }
     
-        return await customersModel.findOneAndUpdate(id, queryUpdate).exec();
+        return await customersModel.findByIdAndUpdate(id, queryUpdate).exec();
     }
     catch(err)
     {

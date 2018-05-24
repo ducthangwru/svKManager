@@ -53,6 +53,7 @@ Router.put('/', async(req, res) => {
             users : req.body.users,
             contact : req.body.contact
         }
+        console.log(customer)
 
         // if(!Utils.verifyLogin(req.body.idlogin, req.headers['token']))
         // {
