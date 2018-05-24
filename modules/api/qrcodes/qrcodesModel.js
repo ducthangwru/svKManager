@@ -80,6 +80,20 @@ const selectQRCodeByCode = (code, callback) => {
         });
 }
 
+const selectAllQRCode = (callback) => {
+    qrcodesModel.find({})
+        .populate(
+            {
+                path : 'status',
+                model : statusQRCodesModel
+            }
+        )
+        .exec(function(err, doc) {
+            callback(doc);
+        });
+}
+
 module.exports = {
-    createQRCode, removeQRCode, findQRCodebyCode, updateQRCode, selectQRCodeByCode
+    createQRCode, removeQRCode, findQRCodebyCode, updateQRCode, selectQRCodeByCode,
+    selectAllQRCode
 }

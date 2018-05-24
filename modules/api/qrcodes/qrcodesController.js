@@ -52,6 +52,38 @@ Router.get('/', (req, res) => {
     }
 });
 
+Router.get('/all', (req, res) => {
+    try
+    {
+        qrcodesModel.selectAllQRCode((doc) => {
+            if(doc === null)
+                res.send({status : false, msg : config.KHONG_CO_DU_LIEU, data : null});
+            else
+                res.send({status : true, msg : config.THANH_CONG, data : doc});
+        });
+    }
+    catch(err)
+    {
+        res.send({status : false, msg : config.CO_LOI_XAY_RA, data : null});
+    }
+});
+
+Router.put('/', async(req, res) => {
+    try
+    {
+        let result = await qrcodesModel.updateQRCode(req.query.idqrcode, req.query.idstatus);
+            if(result)
+                res.send({status : false, msg : config.CO_LOI_XAY_RA});
+            else
+                res.send({status : true, msg : config.THANH_CONG});
+    }
+    catch(err)
+    {
+        res.send({status : false, msg : config.CO_LOI_XAY_RA, data : null});
+    }
+});
+
+
 Router.delete('/', async(req, res) => {
     try
     {
