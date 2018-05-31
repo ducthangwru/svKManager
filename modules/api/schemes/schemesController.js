@@ -86,4 +86,51 @@ Router.post('/', async(req, res) => {
     }
 });
 
+Router.put('/', async(req, res) => {
+    try
+    {
+        let id = req.body._id;
+
+        let scheme = {
+            name : req.body.name,
+            idlogin : req.body.idlogin,
+            user : req.body.user,
+            customer : req.body.customer,
+            listProduct : req.body.listProduct,
+            fromDate : moment(req.body.fromdate),
+            toDate : moment(req.body.todate),
+        }
+
+            let result = await schemesModel.updateScheme(id, scheme);
+
+            if(result === -1)
+                res.send({status : false, msg : config.CO_LOI_XAY_RA});
+            else if(result === 0)
+                res.send({ status : true, msg : config.KHONG_THANH_CONG});
+            else
+                res.send({ status : true, msg : config.THANH_CONG});
+        //}
+    }
+    catch(err)
+    {
+        res.send({status : false, msg : config.CO_LOI_XAY_RA, data : null});
+    }
+});
+
+Router.delete('/', async(req, res) => {
+    try
+    {
+        let id = req.body._id;
+
+
+        let result = await schemesModel.updateStatusScheme(id, "5b100f78feb222491a854f17"); //trạng thái xóa
+
+        res.send({ status : true, msg : config.THANH_CONG});
+    }
+    catch(err)
+    {
+        res.send({status : false, msg : config.CO_LOI_XAY_RA, data : null});
+    }
+});
+
 module.exports = Router;
