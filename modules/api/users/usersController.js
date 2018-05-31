@@ -18,7 +18,7 @@ Router.post('/', async (req, res) => {
             fullname: req.body.fullname,
             dateofbirth: req.body.dateofbirth,
             status : true,
-            group :"5a6fe111734d1d63031a767a",
+            group :"5a6fe136734d1d63031a7698",
             phonenumber : req.body.phonenumber
         };
     
